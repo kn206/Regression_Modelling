@@ -1,0 +1,55 @@
+---
+title: "SAS3202 Regression Modelling Assignment"
+author: "Kelvin Nyongesa"
+date: "2023-01-19"
+output: html_document
+---
+
+```{r}
+my_data<-data.frame(
+x1=c(60,62,67,70,71,72,75,78),
+x2=c(22,25,24,20,15,14,14,11),
+y=c(140,155,159,179,192,200,212,215))
+```
+#i). Plot the observed values of y as a function of x1 and x2 . Does it seem reasonablethat either x1 or x2 can describe the variation in y?
+```{r}
+par(mfrow=c(1,2))
+plot(my_data$x1, my_data$y, xlab="x1", ylab="y")
+plot(my_data$x2, my_data$y, xlab="x2", ylab="y")
+```
+There does not seem to be a strong relation between y and x1 or x2.
+
+#ii). Calculate the parameter estimates βˆ0 , βˆ1 , βˆ2 , and σˆ2 and fit a regression line. In addition find the 95% confidence intervals for β0 , β1 , & β2 .
+
+```{r}
+fit_lim<- lm(y~ x1 + x2)
+summary(fit_lim)
+```
+
+Getting the parameter estimates
+The parameter estimates are given in the first column of the coefficient matrix, 
+β̂ 0=-6.8675 ,β̂ 1 =3.1479 β̂ 2, =-1.6561 
+and the error variance estimate is σ̂2 =6.379^2
+
+Getting the confidence intervals
+```{r}
+confint(fit_lim)
+```
+
+#iii). If appropriate, reduce the model using α = 0.05 confidence level and test the significance of the reduced model.
+Since the confidence interval for β2 cover zero (and the p-value is much larger than 0.05, the parameter should be removed from the model to get the simpler model yi = β 0 + β 1 x1 + ε i ,ε i ∼ N (0, σ2 ),the parameter estimates in the simpler model are and both parameters are now significant.
+```{r}
+fit2 <- lm(y ~ x1, data=,my_data)
+summary(fit2)
+```
+#iv). Carry out a residual analysis to check that the model assumptions are fulfilled.
+We are interested in inspecting a q-q plot of the residuals and a plot of the residuals as a function of the fitted values
+```{r}
+par(mfrow=c(1,2))
+qqnorm(fit2$residuals, pch=19)
+qqline(fit2$residuals)
+plot(fit2$fitted.values, fit$residuals, pch=19,
+xlab="Fitted.values", ylab="Residuals")
+```
+there are no strong evidence against the assumptions, the qq-plot is are a straight line and the are no obvious dependence between the residuals and the fitted values,and we conclude that the assumptions are not fulfilled.
+
